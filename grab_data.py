@@ -16,15 +16,15 @@ bitfinex = ccxt.bitfinex ()
 bitstamp = ccxt.bitstamp () 
 #bitstamp.load_markets ()
 
-def min_ohlcv(dt, pair, limit):
+def min_ohlcv(exch, dt, pair, limit):
     # UTC native object
     since = calendar.timegm(dt.utctimetuple())*1000
-    ohlcv1 = binance.fetch_ohlcv(symbol=pair, timeframe='1m', since=since, limit=limit)
-    ohlcv2 = binance.fetch_ohlcv(symbol=pair, timeframe='1m', since=since, limit=limit)
+    ohlcv1 = exch.fetch_ohlcv(symbol=pair, timeframe='1m', since=since, limit=limit)
+    ohlcv2 = exch.fetch_ohlcv(symbol=pair, timeframe='1m', since=since, limit=limit)
     ohlcv = ohlcv1 + ohlcv2
     return ohlcv
 
-def ohlcv(dt, pair, period='1d'):
+def ohlcv(exch, dt, pair, period='1d'):
     ohlcv = []
     limit = 1000
     if period == '1m':
@@ -39,9 +39,9 @@ def ohlcv(dt, pair, period='1d'):
         start_dt = datetime.strptime(i, "%Y%m%d")
         since = calendar.timegm(start_dt.utctimetuple())*1000
         if period == '1m':
-            ohlcv.extend(min_ohlcv(start_dt, pair, limit))
+            ohlcv.extend(min_ohlcv(exch, start_dt, pair, limit))
         else:
-            ohlcv.extend(binance.fetch_ohlcv(symbol=pair, timeframe=period, since=since, limit=limit))
+            ohlcv.extend(exch.fetch_ohlcv(symbol=pair, timeframe=period, since=since, limit=limit))
     df = pd.DataFrame(ohlcv, columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
     df['Time'] = [datetime.fromtimestamp(float(time)/1000) for time in df['Time']]
     df['Open'] = df['Open'].astype(np.float64)
