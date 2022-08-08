@@ -4,6 +4,17 @@ import calendar
 from datetime import datetime, date, timedelta
 
 binance = ccxt.binance()
+#binance.load_markets ()
+ftx = ccxt.ftx () 
+#ftx.load_markets ()
+gemini = ccxt.gemini ()
+#gemini.load_markets ()
+kraken = ccxt.kraken () 
+#kraken.load_markets ()
+bitfinex = ccxt.bitfinex ()
+#bitfinex.load_markets ()
+bitstamp = ccxt.bitstamp () 
+#bitstamp.load_markets ()
 
 def min_ohlcv(dt, pair, limit):
     # UTC native object
