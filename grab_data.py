@@ -42,12 +42,14 @@ def ohlcv(exch, dt, pair, period='1d'):
             ohlcv.extend(min_ohlcv(exch, start_dt, pair, limit))
         else:
             ohlcv.extend(exch.fetch_ohlcv(symbol=pair, timeframe=period, since=since, limit=limit))
-    df = pd.DataFrame(ohlcv, columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
+    df = pd.DataFrame(ohlcv, columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume', 'Exch', 'Pair'])
     df['Time'] = [datetime.fromtimestamp(float(time)/1000) for time in df['Time']]
     df['Open'] = df['Open'].astype(np.float64)
     df['High'] = df['High'].astype(np.float64)
     df['Low'] = df['Low'].astype(np.float64)
     df['Close'] = df['Close'].astype(np.float64)
     df['Volume'] = df['Volume'].astype(np.float64)
+    df['Exch'] = df['Exch'].astype(str)
+    df['Pair'] = df['Pair'].astype(str)
     df.set_index('Time', inplace=True)
     return df
