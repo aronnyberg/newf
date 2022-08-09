@@ -53,3 +53,20 @@ def ohlcv(exch, dt, pair, period='1d'):
     df['Pair'] = df['Pair'].astype(str)
     df.set_index('Time', inplace=True)
     return df
+
+def find_indices(list_to_check, item_to_find):
+    indices = []
+    for idx, value in enumerate(list_to_check):
+        if value == item_to_find:
+            indices.append(idx)
+    return indices
+
+def find_pairs(exchange, asset):
+    lists = exchange.symbols
+    flat_list = [item for each in [i.split('/') for i in lists] for item in each]
+    found_indices = find_indices(flat_list, asset)
+    found_indices_2 = [round(i/2) for i in found_indices]
+    actual_indices = []
+    for each in found_indices_2:
+        actual_indices.append(lists[each])
+    return actual_indices
