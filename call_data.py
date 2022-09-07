@@ -5,9 +5,6 @@ today = date.today()
 
 dt = ['20220101', str(today)]
 
-data = pd.read_csv('/Users/aronnyberg/Downloads/crypto200 - Sheet1.csv')
-#assetList = data.iloc[:,2].values
-#assetList = [i for i in assetList][100:120]
 assetList = ['RVN','ANKR','ICX','ZEN','LPT','RENBTC','REV','ZIL','SC','NFT','BNT','SUSHI','TEL','AUDIO','BTG','GNO']
   
 #NEED TO FIND PAIRS TO GRAB  
